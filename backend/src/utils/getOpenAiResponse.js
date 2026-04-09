@@ -1,5 +1,5 @@
 const GROQCLOUD_API_KEY = process.env.GROQCLOUD_API_KEY;
-import ExpressError from "./expressError";
+import ExpressError from "./expressError.js";
 
 const getOpenAiResponse = async (message) => {
   const options = {

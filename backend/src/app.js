@@ -3,8 +3,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import client from "./config/openai.js";
-
+import threadRoutes from "./routes/thread.routes.js"
 const app = express();
 app.set("PORT", process.env.PORT || 5000);
 
@@ -19,9 +18,10 @@ app.use(
 );
 
 app.get("/api", async (req, res, next) => {
-
+return res.json({ message: "Hello from the backend CodeX!" });
 });
 
+app.use("/api/thread", threadRoutes);
 
 app.use((err, req, res, next) => {
   console.error("🔥 Error:", err);

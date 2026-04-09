@@ -2,7 +2,6 @@ import {Sequelize} from 'sequelize';
 import dotenv from 'dotenv';
 import ExpressError from '../utils/expressError.js';
 import wrapAsync from '../utils/wrapAsync.js';
-import { stopCronJobs } from '../services/cronJob.js';
 
 dotenv.config();
 
@@ -45,13 +44,11 @@ export const disconnectDB = wrapAsync(async () => {
 process.on('SIGINT', async()=>{
     await disconnectDB();
   console.log("Process Signal Interrupt terminated");
-  stopCronJobs();
     process.exit(0);
 })
 
 process.on("SIGTERM", async () => {
   await disconnectDB();
-  stopCronJobs();
   console.log("Process Signal Terminate terminated");
   process.exit(0);
 });
