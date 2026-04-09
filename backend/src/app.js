@@ -19,18 +19,7 @@ app.use(
 );
 
 app.get("/api", async (req, res, next) => {
-  try {
-    const aiResponse = await client.chat.completions.create({
-      messages: [{ role: "user", content: " " }],
-      model: "llama-3.3-70b-versatile", 
-    });
 
-    return res.status(200).json({
-      message: aiResponse.choices[0].message.content, 
-    });
-  } catch (error) {
-    next(error); 
-  }
 });
 
 
