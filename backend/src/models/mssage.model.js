@@ -24,7 +24,7 @@ Message.init(
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },
@@ -36,7 +36,7 @@ Message.init(
   },
 );
 
-Thread.hasMany(Message, {foreignKey: "id", as: "messages", onDelete: "CASCADE"})
+Thread.hasMany(Message, {foreignKey: "threadId", as: "messages", onDelete: "CASCADE"})
 Message.belongsTo(Thread, {foreignKey: "threadId", as: "thread"})
 
 export default Message;

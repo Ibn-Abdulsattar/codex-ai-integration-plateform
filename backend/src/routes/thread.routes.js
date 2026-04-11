@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createChatThread,
+  createThread,
   deleteThreadById,
   getAllThreads,
   getThreadById,
@@ -8,6 +9,7 @@ import {
 import wrapAsync from "../utils/wrapAsync.js";
 const router = express.Router();
 
+router.route("/create").post(wrapAsync(createThread));
 router.route("/").get(wrapAsync(getAllThreads));
 router
   .route("/:threadId")

@@ -1,42 +1,51 @@
-"use client";
-import React, { useState } from "react";
+import { v4 as uuid } from "uuid";
 
-function ChatInput() {
-  const [message, setMessage] = useState("");
+function ChatInput({
+  prompt,
+  setPrompt,
+  sendMessage,
+  isLoading,
+  currentThread,
+}) {
+  const threadId = currentThread?.id ?? uuid();
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setPrompt(value);
+  };
+
+  const handleSubmit = async () => {
+    await sendMessage({ message: prompt, threadId: threadId });
+    setPrompt("");
+  };
+
+  const handleKeyDown = (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    handleSubmit();
+  }
+};
 
   return (
     <div className="w-full px-4 py-3 bg-[#212121]">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-2 bg-[#303030] rounded-2xl px-3 py-2 border border-[#3a3a3a] focus-within:border-[#565656]">
-          <button className="text-gray-400 hover:text-white p-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-
           <textarea
             rows={1}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={prompt}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            type="text"
             placeholder="Message CodeX..."
             className="flex-1 bg-transparent text-white resize-none outline-none text-sm placeholder-gray-400 max-h-40"
           />
 
           <div className="flex items-center gap-2">
             <button
-              disabled={!message.trim()}
-              className={`p-2 rounded-lg ${
-                message.trim()
-                  ? "bg-white text-black hover:bg-gray-200"
+              onClick={handleSubmit}
+              disabled={!prompt.trim() || isLoading}
+              className={`p-2 rounded-lg  ${
+                prompt.trim() && !isLoading
+                  ? "bg-white text-black cursor-pointer hover:bg-gray-500"
                   : "bg-[#3a3a3a] text-gray-500 cursor-not-allowed"
               }`}
             >

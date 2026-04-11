@@ -8,7 +8,7 @@ const getOpenAiResponse = async (message) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${GROQCLOUD_API_KEY}`,
     },
-    body: {
+    body: JSON.stringify({
       model: "llama-3.3-70b-versatile",
       messages: [
         {
@@ -16,7 +16,7 @@ const getOpenAiResponse = async (message) => {
           content: message,
         },
       ],
-    },
+    }),
   };
   try {
     const response = await fetch(
@@ -31,7 +31,8 @@ const getOpenAiResponse = async (message) => {
     const data = await response.json();
     return data.choices[0].message.content;
   } catch (error) {
-    next(error);
+    console.log(error);
+    throw new ExpressError(error.message, 500);
   }
 };
 

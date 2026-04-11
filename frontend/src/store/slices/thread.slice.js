@@ -1,17 +1,29 @@
 import threadService from "@/services/thread.service";
 
 const threadSlice = (set, get) => ({
-  threads: [],
   currentThread: null,
+  allThreads: [],
   isLoading: false,
   error: null,
   clearError: () => set({ error: null }),
-
+  
+  createNewThread: async (data) => {
+    set({ isLoading: true });
+    try {
+      const res = await threadService.createThread(data);
+      set({ isLoading: false });
+      get().fetchThread(res.data.id);
+      return res.data;
+    } catch (err) {
+      set({ error: err.message, isLoading: false });
+    }
+  },
   fetchAllThreads: async () => {
     set({ isLoading: true });
     try {
-      const data = await threadService.getAllThreads();
-      set({ threads: data, isLoading: false });
+      const res = await threadService.getAllThreads();
+      set({ allThreads: res.data, isLoading: false });
+      return res.data;
     } catch (err) {
       set({ error: err.message, isLoading: false });
     }
@@ -20,8 +32,10 @@ const threadSlice = (set, get) => ({
   fetchThread: async (id) => {
     set({ isLoading: true });
     try {
-      const data = await threadService.getThreadById(id);
-      set({ currentThread: data, isLoading: false });
+      const res = await threadService.getThreadById(id);
+      console.log("Fetch Thread", res.data);
+      set({ currentThread: res.data, isLoading: false });
+      return res;
     } catch (err) {
       set({ error: err.message, isLoading: false });
     }
@@ -30,14 +44,27 @@ const threadSlice = (set, get) => ({
   sendMessage: async (formData) => {
     set({ isLoading: true });
     try {
-      const response = await threadService.createChatThread(formData);
-
+      const res = await threadService.createChatThread(formData);
       set((state) => ({
-        currentThread: response.data,
         isLoading: false,
+        currentThread: res.data,
       }));
 
       get().fetchAllThreads();
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      set({ error: err.message, isLoading: false });
+    }
+  },
+
+  deleteThread: async (id) => {
+    set({ isLoading: true });
+    try {
+      const res = await threadService.deleteThreadById(id);
+      set({ isLoading: false });
+      get().fetchAllThreads();
+      return res;
     } catch (err) {
       set({ error: err.message, isLoading: false });
     }

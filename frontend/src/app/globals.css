@@ -1,6 +1,7 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-* {
+body {
   color: #ececec;
   font-family: Roboto, "Open Sans", "Helvetica Neue", sans-serif;
 }
@@ -16,3 +17,14 @@ body {
 }
 
 
+.user-message{
+    background-color: #3a3a3a;
+    color: #ececec;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    max-width: 50%;
+    text-align: right;
+    margin-left: auto;
+
+}

@@ -1,4 +1,3 @@
-
 function Navbar() {
   return (
     <div className="flex items-center justify-between h-[100%] px-4 py-2 bg-[#212121] text-white border-b border-[#2f2f2f]">
