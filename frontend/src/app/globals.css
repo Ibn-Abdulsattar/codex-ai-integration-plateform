@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
+@import "@tailwindcss/typography";
 
 body {
   color: #ececec;
@@ -26,5 +26,12 @@ body {
     max-width: 50%;
     text-align: right;
     margin-left: auto;
+}
 
+.chat-title{
+    display: inline-block;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

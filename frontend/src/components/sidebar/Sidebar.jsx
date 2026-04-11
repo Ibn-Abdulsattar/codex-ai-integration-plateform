@@ -2,7 +2,6 @@
 import useAppStore from "@/store/useAppStore";
 import { useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
-import { v4 as uuid } from "uuid";
 
 function Sidebar() {
   const fetchAllThreads = useAppStore((state) => state.fetchAllThreads);
@@ -11,7 +10,7 @@ function Sidebar() {
   const hasHydrated = useAppStore((state) => state.hasHydrated);
   const isLoading = useAppStore((state) => state.isLoading);
   const deleteThread = useAppStore((state) => state.deleteThread);
-const newThreadId = uuid();
+const createNewThread = useAppStore((state) => state.createNewThread);
   useEffect(() => {
       fetchAllThreads();
   }, [fetchAllThreads]);
@@ -25,7 +24,7 @@ const newThreadId = uuid();
   };
 
   const handleNewChat= ()=>{
-    fetchThread(newThreadId);
+    createNewThread();
   }
 
   return (
@@ -88,7 +87,7 @@ const newThreadId = uuid();
                 <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
               </svg>
 
-              <span className="text-sm min-w-0 truncate">{el.title || "Untitled Chat"}</span>
+              <span className="text-sm min-w-0 truncate chat-title">{el.title || "Untitled Chat"}</span>
             </div>
 
             {/* Hover Actions */}

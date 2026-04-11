@@ -6,17 +6,9 @@ const threadSlice = (set, get) => ({
   isLoading: false,
   error: null,
   clearError: () => set({ error: null }),
-  
+
   createNewThread: async (data) => {
-    set({ isLoading: true });
-    try {
-      const res = await threadService.createThread(data);
-      set({ isLoading: false });
-      get().fetchThread(res.data.id);
-      return res.data;
-    } catch (err) {
-      set({ error: err.message, isLoading: false });
-    }
+    set({ currentThread: null, error: null });
   },
   fetchAllThreads: async () => {
     set({ isLoading: true });

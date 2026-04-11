@@ -6,10 +6,6 @@ const threadClient = axios.create({
   withCredentials: true,
 });
 const threadService = {
-  createThread: async(formData)=>{
-    const res = await threadClient.post("/create", formData);
-    return res.data;
-  },
   getAllThreads: async () => {
     const res = await threadClient.get("/");
     return res.data;

@@ -3,17 +3,6 @@ import Thread from "../models/thread.model.js";
 import ExpressError from "../utils/expressError.js";
 import getOpenAiResponse from "../utils/getOpenAiResponse.js";
 
-export const createThread = async(req, res, next)=>{
-    const { title, id } = req.body;
-
-    if(!title || !id){
-        return new ExpressError("Thread Title and Id is required!", 404);
-    }
-    const thread = await Thread.create({title, id});
-
-    return res.status(201).json({data: thread});
-}
-
 export const getAllThreads = async (req, res, next) => {
   const threads = await Thread.findAll({
     order: [["updatedAt", "DESC"]],
